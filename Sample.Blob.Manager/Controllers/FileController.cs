@@ -25,5 +25,14 @@ namespace Sample.Blob.Manager.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("download")]
+        public async Task<IActionResult> Read(string filename)
+        {
+            var fileData = await _fileManagerLogic.Read(filename);
+
+            return File(fileData, "application/pdf");
+        }
     }
 }
