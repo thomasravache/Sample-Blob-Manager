@@ -29,9 +29,9 @@ namespace Sample.Blob.Manager.Logics
             // await blobClient.UploadAsync(model.MyFile.OpenReadStream());
         }
 
-        public async Task<byte[]> Read(string filename)
+        public async Task<byte[]> Read(string fileName)
         {
-            var blobClient = GetBlobClient("upload-file", filename);
+            var blobClient = GetBlobClient("upload-file", fileName);
 
             var fileDownloaded = await blobClient.DownloadAsync();
 
@@ -40,6 +40,13 @@ namespace Sample.Blob.Manager.Logics
                 await fileDownloaded.Value.Content.CopyToAsync(ms);
                 return ms.ToArray();
             }
+        }
+
+        public async Task Delete(string fileName)
+        {
+            var blobClient = GetBlobClient("upload-file", fileName);
+
+            await blobClient.DeleteAsync();
         }
     }
 }

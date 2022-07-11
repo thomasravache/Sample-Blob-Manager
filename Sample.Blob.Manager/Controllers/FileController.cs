@@ -28,24 +28,32 @@ namespace Sample.Blob.Manager.Controllers
 
         [HttpGet]
         [Route("read")]
-        public async Task<IActionResult> Read(string filename)
+        public async Task<IActionResult> Read(string fileName)
         {
-            var fileData = await _fileManagerLogic.Read(filename);
+            var fileData = await _fileManagerLogic.Read(fileName);
 
             return File(fileData, "application/pdf");
         }
 
         [HttpGet]
         [Route("download")]
-        public async Task<IActionResult> Download(string filename)
+        public async Task<IActionResult> Download(string fileName)
         {
-            var fileData = await _fileManagerLogic.Read(filename);
+            var fileData = await _fileManagerLogic.Read(fileName);
 
             //return File(fileData, "application/octet-stream");
             return new FileContentResult(fileData, "application/octet-stream")
             {
                 FileDownloadName = Guid.NewGuid().ToString() + ".pdf"
             };
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(string fileName)
+        {
+            await _fileManagerLogic.Delete(fileName);
+
+            return NoContent();
         }
     }
 }
