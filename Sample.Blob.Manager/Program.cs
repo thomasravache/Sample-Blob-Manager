@@ -1,4 +1,5 @@
 using Azure.Storage.Blobs;
+using Sample.Blob.Manager.Logics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddScoped(options =>
 {
     return new BlobServiceClient(builder.Configuration.GetConnectionString("AzureStorage"));
 });
+builder.Services.AddScoped<IFileManagerLogics, FileManagerLogics>();
 
 var app = builder.Build();
 
