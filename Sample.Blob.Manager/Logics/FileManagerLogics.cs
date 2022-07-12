@@ -25,8 +25,8 @@ namespace Sample.Blob.Manager.Logics
 
             await blobClient.UploadAsync(model.MyFile.OpenReadStream());
 
-            // se não quiser que o arquivo com o mesmo nome seja sobrescrito utilizar desta forma abaixo:
-            // await blobClient.UploadAsync(model.MyFile.OpenReadStream());
+            // se quiser que o arquivo com o mesmo nome seja sobrescrito utilizar desta forma abaixo:
+            // await blobClient.UploadAsync(model.MyFile.OpenReadStream(), false);
         }
 
         public async Task<byte[]> Read(string fileName)
