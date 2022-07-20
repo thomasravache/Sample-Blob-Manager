@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Sample.Blob.Manager.Models;
 
 namespace Sample.Blob.Manager.Logics
@@ -19,21 +20,22 @@ namespace Sample.Blob.Manager.Logics
              return blobContainer.GetBlobClient(fileName); // é bom colocar o timestamp no final do arquivo
         }
 
-        public async Task Upload(FileModel model)
+        public async Task<long> Upload(FileModel model)
         {
             var blobClient = GetBlobClient("upload-file", model.MyFile.FileName); // é bom colocar o timestamp no final do arquivo
 
             await blobClient.UploadAsync(model.MyFile.OpenReadStream());
 
+            BlobProperties properties = await blobClient.GetPropertiesAsync();
             // se quiser que o arquivo com o mesmo nome seja sobrescrito utilizar desta forma abaixo:
             // await blobClient.UploadAsync(model.MyFile.OpenReadStream(), false);
+
+            return properties.ContentLength;
         }
 
         public async Task<byte[]> Read(string fileName)
         {
             var blobClient = GetBlobClient("upload-file", fileName);
-
-            Console.WriteLine(blobClient.GetProperties().Value);
 
             var fileDownloaded = await blobClient.DownloadAsync();
 

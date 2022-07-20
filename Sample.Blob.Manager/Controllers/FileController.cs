@@ -20,7 +20,11 @@ namespace Sample.Blob.Manager.Controllers
         {
             if (model.MyFile != null)
             {
-               await _fileManagerLogic.Upload(model);
+               var size = await _fileManagerLogic.Upload(model);
+                return Ok(new
+                {
+                    Size = size,
+                });
             }
 
             return Ok();
