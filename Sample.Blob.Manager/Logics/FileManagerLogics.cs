@@ -33,6 +33,8 @@ namespace Sample.Blob.Manager.Logics
         {
             var blobClient = GetBlobClient("upload-file", fileName);
 
+            Console.WriteLine(blobClient.GetProperties().Value);
+
             var fileDownloaded = await blobClient.DownloadAsync();
 
             using (MemoryStream ms = new MemoryStream())
